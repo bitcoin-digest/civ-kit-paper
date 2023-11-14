@@ -110,7 +110,9 @@ Terry
 Caroll Mary's NGN offer Dave
 Mary's NGN offer Billy Mary's NGN offer
 Fig. 2 Order publication phase: Billy relays Mary’s offer event to all his clients: Caroll, Terry and Dave.
-4.2.2 Order settlement
+
+### 4.2.2 Order settlement
+
 During the order settlement phase, the takers receive the trade orders as Nostr events, and send a Lightning packet to the makers through the Lightning channels to enter into the trade. Market matching is the responsibility of the takers.
 A trade taker connects to an unbounded number of bulletin boards, relay- ing the takers types of trade of interest. For a type of trade, there can be a disjunction between the set of bulletin boards the maker relays to and the taker subscribes to. However, it is expected takers to connect to as many bulletin boards as they can to gain higher visibility of all the available trade orders.
 When a taker receives a trade order, they should parse the escrow contract information, and evaluate if the offers and escrow conditions fulfill their trad- ing requirements/strategy (e.g timelock duration until expiration, number of moderation oracles, etc). In case of success, they should send a corresponding Lightning HTLC from their channels to the maker’s blinded path entry point. The Lightning HTLC is modified to support the trade escrow contract.
@@ -141,7 +143,11 @@ Another significant risk is order tampering, where the content of the order is a
 
 For the bulletin boards themselves, there is a risk of spam attacks, where invalid or economically irrelevant orders are massively announced by an adver- sary. Spoofed orders can be deterred by requesting a Bitcoin payment or committing to collateral toward the bulletin board as part of the incentive framework. The collateral pricing of the trade publication risk can be tailored according to the issuing maker’s rank if semi-persistent keys are used.
 Lastly, the most efficient bulletin boards concentrating the best orders in their class of trades along time are at risk of becoming systematically important market actors. Their failure or compromise can provoke significant disrup- tions with lasting effects on the peer-to-peer markets operations. While this risk is hedged by the ability of makers and takers to replicate or duplicate their trading operations on another board at low-cost, additional safety can be introduced by running the bulletin board as a federation [21].
-6 The trade escrow Bitcoin contracts 6.1 Types of oracles
+
+# 6 The trade escrow Bitcoin contracts
+
+## 6.1 Types of oracles
+
 In addition to a peer-to-peer order book, functional peer-to-peer electronic markets require various types of oracles:
 
 - Moderation oracles: They intervene in contentious trades to adjudicate the funds;
@@ -149,12 +155,16 @@ In addition to a peer-to-peer order book, functional peer-to-peer electronic mar
 - Real-world oracles: They attest to real-world events (e.g shipment delivery).
   All types of oracles can participate in trade operations. Both makers and takers can verify their trade counterparties based on the trade material authen- ticity as attested by KYP oracles (e.g bank information validity). Once the trade is concluded and in case of a dispute, moderators can use the informa- tion attested by KYP or real-world oracles to examine the state of the trade flows (e.g a mining ASIC delivered to the payer). This attested information should improve the quality of moderation decisions.
   Like the bulletin boards, oracles can be selected openly by trade coun- terparties. The moderator oracle can be directly integrated into the Bitcoin escrow contract between trade counterparties. The level of integration can vary from a simple setup to advanced ones. Furthermore, the number of oracles per type can range from a single one to an N-of-M policy.
-  6.2 Simple Escrow
-  Bitcoin Script can be utilized to create simple escrow using multi-signature opcodes. For instance, a straightforward script policy fulfilling the trade requirements of the previous naira-BTC trade example can be as follows:
+
+## 6.2 Simple Escrow
+
+Bitcoin Script can be utilized to create simple escrow using multi-signature opcodes. For instance, a straightforward script policy fulfilling the trade requirements of the previous naira-BTC trade example can be as follows:
 
 "If Mary sends the naira bank wire transfer to Terry, Mary can unlock the BTC funds with Terry’s cooperation through their joint signatures. After 100 blocks, Mary can unlock the BTC funds with the cooperative signature of Olivia, the moderation oracle. After 100 blocks, Terry can cancel the BTC funds withholding with the collaborative signature of Olivia. After 200 blocks, the BTC funds are returned to Terry."
 These Bitcoin escrows can be built on top of Lightning payment channels, provided that a preimage is released by the maker to maintain the operational correctness of the chain of HTLCs across the Lightning payment path. This preimage technique should allow the Lightning routing hops to route escrow contracts without requiring software support for the on-chain or off-chain Script resolution of the escrow paths.
-6.3 Advanced Escrow
+
+## 6.3 Advanced Escrow
+
 The activation of the Schnorr/Taproot soft-fork over the Bitcoin blockchain enables the support of point-time-locked contracts over Lightning chan- nels [22]. Namely, the fundamental idea is to replace the hash-lock mechanism by the reveal of a Schnorr signature satisfying a public key.
 Payment points themselves allow the introduction of secret sharing for gen- eral access structures as a building block for more advanced Bitcoin escrow contracts [23]. Formally, a secret sharing for general access structure is a tech- nique to share a secret K (e.g a Lightning payment point) in such a way that a N-of-M combination of partial secrets allows the reveal of the complete secret K itself.
 The N-of-M combination could be any logical circuit of oracles (price, mod- erators, “know your peer") following the trade conditions negotiated by the counterparties. To reveal their partial secrets, the oracles can request the sat- isfaction of their own out-of-band policy. E.g, a moderation oracle can enforce that trade proofs should be in conformity with the moderation rules and should be communicated in time-sensitive fashion to perform adequate adjudication.
@@ -177,8 +187,11 @@ Olive
 Escrow Contract
 LN Commitment Tx
 Fig. 4 Advanced Escrow: Mary and Terry have a pending trade escrow open on their LN commitment transaction. The escrow can be settled by Mary or Terry signature and a valid combination of Olivia, Olaf and Olive as moderation oracles and Ketan and Kerry as Know your Peer oracles
-7 Order in the market: the Web-of-Stakes
-7.1 Spamming issues in peer-to-peer electronic markets
+
+# 7 Order in the market: the Web-of-Stakes
+
+## 7.1 Spamming issues in peer-to-peer electronic markets
+
 While a peer-to-peer orderbook and Bitcoin escrow contracts establish the foundation for a peer-to-peer electronic market, it is essential to manage the high volume of information to prevent spam from paralyzing operations.
 Spam deterrence has long been a challenge in the open Internet, where free public services are constantly at risk of denial-of-service attacks by careless or malicious users [27]. Authentication based on passwords and PKI has been one way to bridge trust gaps in Internet security architecture, while other solutions like proof-of-work have also been explored [28].
 In peer-to-peer electronic markets, spamming issues are multifaceted. Bul- letin boards face trade order spam, where the order format is either invalid or designed for denial-of-service, or even more severely, trade order flooding, where orders are economically irrelevant (e.g., trade maturity too far in the future, swaps to currencies with no demand, exorbitant markup fees, etc.). Even though some orders’ lack of relevance can be identified based on apparent anomalies, the relevance of market information remains a dynamic qualification subject to inherent market forces.
@@ -187,7 +200,9 @@ On the other hand, trade takers face the issue of lazy or malicious coun- terpar
 
 Bitcoin escrow contracts. Furthermore, trade participants may exhibit a low level of cooperation by not settling operations off-chain, thus burdening their counterparties with on-chain fees.
 An ideal ranking system for peer-to-peer electronic markets should allow for sorting both the quality of trade orders and counterparties. Involving a centralized authority that captures market participant characteristics and weighs them based on a custom algorithm would introduce a trusted third party in the market operations. Web-of-trust, while peer-to-peer in its func- tion, does not scale well for large-scale abstract economic interactions, where direct or indirect social connections between market participants cannot be assumed [29].
-7.2 The Web-of-Stakes
+
+## 7.2 The Web-of-Stakes
+
 The Bitcoin blockchain offers a source of economic relevance tied to pseudony- mous identities: the UTXO set. Assuming a zero-knowledge proof system with support for arbitrary computations, attributes of UTXO can be asserted in privacy-preserving fashion (satoshis amount, witnessScript, UTXO age). If the Bitcoin Script can be inspected, a third-party can verify the funds are locked under a valid LN channel funding script and cross-check if it has been announced as a public channel over LN gossips.
 All the stakes certificates (i.e a privacy-preserving proof-of-UTXO owner- ship) for a Lightning node can be collected and their private keys counter-sign a "stake public key" [30]. Akin to PGP, this public key represents a Lightning node economic weight in the channel topology. Under the observation that along time Lightning liquidity should be allocated efficiently, this economic weight assumption should hold.
 This economic weight is dynamic in function of your channel opening and closure, and a third-party should prune out the stakes certificates for the closed channels from your economic weight.
@@ -240,11 +255,16 @@ Bob
 
 For instance, Billy the bulletin board can establish a service policy for the next 3 months period requesting that all offers should be attached with credentials worth 1000 sats. Those credentials would allow the offers to stick on Billy’s board for 1 month. If the offers publishers have low ranking scores, Billy could request an additional 1000 sats. If Billy’s board is well-ranked among all the bulletin boards, a “promotion" fee could be requested to prioritize the offers processing.
 Fig. 7 Credentials redemption phase: Mary the maker attached the credentials to her trade offer and sends her over LN onion routing to Billy. This phase is embedded in the order dissemination phase.
-9 Applications
-9.1 Bitcoin financial contracts
+
+# 9 Applications
+
+## 9.1 Bitcoin financial contracts
+
 Peer-to-peer electronic markets are primarily designed for currency trading. However, due to the flexible offers format and the capabilities of Bitcoin Script, this peer-to-peer market infrastructure can support a wide variety of Bitcoin off-chain contracts such as coinjoin, discreet log contracts, hashrate derivatives, and lightning liquidity ads.
 All these contracts rely on pre-signed transactions committed by two or more participants. While the contracting mechanisms are trust-minimized, there is no standard decentralized mechanism to match the supply and demand sides of these off-chain contracts.
-9.2 Bitcoin Services Providers discovery
+
+## 9.2 Bitcoin Services Providers discovery
+
 One of the design goals of a peer-to-peer electronic market is to establish infrastructure servers as market services, where components can be logically substituted by competing components, at least for their basic functionalities. Any bulletin board or rank proof server can be replaced or used concurrently with another bulletin board in a dynamic fashion.
 This discovery mechanism can be extended to existing Bitcoin and Light- ning infrastructure providers, such as watchtowers [33], light client servers [34], backup servers, liquidity services providers [35]. This flexible discovery mech- anism enables to untangle a client from the default servers seeded by software vendors, thus improving the decentralization of the Bitcoin ecosystem.
 maker Mary
@@ -264,47 +284,47 @@ Numerous classes of global trade could be traded on the bulletin boards and exch
 We have had Bitcoin as a system of peer-to-peer electronic cash for fourteen years, which does not rely on trust. However, Bitcoin cannot reach the masses of global users in daily use unless it can interact with the existing world of fiat currencies, goods, and services trading. We propose a system of peer- to-peer electronic markets without relying on trusted third parties. We start with a peer-to-peer order book that relies on the Nostr client-server architec- ture and the Lightning onion routing mechanism. To solve trade execution, we depend on Bitcoin escrow contracts, where trade logic can be backed by trust- minimized oracles. Spam deterrence and the ordering of market information are realized through the introduction of the "Web-of-Stakes" paradigm, where the Bitcoin UTXO set and overlay semantics serve as a trustless source of truth. The network nodes fulfilling the system operations constitute a dynamic mem- bership in competition. The correctness of these node operations is incentivized by Bitcoin payments with minimal coordination.
 
 References
-[1] Szabo, N.: Trusted Third Parties are Security Holes. https://nakamotoinstitute.org/trusted-third-parties/
-[2] Akerlof, G.A.: The market for "lemons": Quality uncertainty and the market mechanism. The Quarterly Journal of Economics (1970)
-[3] Nakamoto, S.: Bitcoin: A Peer-to-Peer Electronic Cash System. https://nakamotoinstitute.org/bitcoin/
-[4] Script. https://en.bitcoin.it/wiki/Script
-[5] Hearn, M.: Anti DoS for tx replacement. https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2013- April/002417.html (2013)
-[6] Nolan, T.: Re: Alt chains and atomic transfers. https://bitcointalk.org/index.php?topic=193281.msg2224949msg2224949 (2013)
-[7] Andresen, G.: M-of-N Standard Transaction. https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki (2011)
-[8] Optech: Covenants. https://bitcoinops.org/en/topics/covenants/
-[9] Todd, P.: Near-zero fee transactions with hub-and-spoke micro- payments. https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2014- December/006988.html (2014)
-[10] Poon, J., Dryja, T.: The Bitcoin Lightning Network: Scalable Off- chain Instant Payments. https://lightning.network/lightning-network- paper.pdf (2016)
-[11] Kate, A., Goldberg, I.: Using sphinx to improve onion routing circuit con- struction. In: 14th International Conference on Financial Cryptography and Data Security (2010)
-[12] Teinturier,B.:TrampolineRouting.https://github.com/lightning/bolts/pull/829 (2020)
-[13] Teinturier,B.:RouteBlinding.https://github.com/lightning/bolts/pull/765 (2020)
-[14] Russell,R.:Onionmessagesupport.https://github.com/lightning/bolts/pull/759 (2020)
-[15] Invoice Protocol for Lightning https://github.com/lightning/bolts/blob/master/11-payment- encoding.md (2017)
-[16] Russell, R.: Flexible Protocol for Lightning http://bolt12.org/bolt12.html (2020)
-Payments.
-Payments.
-[17]nostr - Notes and Other Stuff Transmitted by Relays. https://github.com/nostr-protocol/nostr (2022)
-[18] Douceur, J.R.: The sybil attack. In: Peer-to-peer Systems: First Interna- tional Workshop (2002)
-[19] Teinturier, B.: Onion messages rate-limiting. https://lists.linuxfoundation.org/pipermail/lightning-dev/2022- June/003623.html (2022)
+
+- [1] Szabo, N.: Trusted Third Parties are Security Holes. https://nakamotoinstitute.org/trusted-third-parties/
+- [2] Akerlof, G.A.: The market for "lemons": Quality uncertainty and the market mechanism. The Quarterly Journal of Economics (1970)
+- [3] Nakamoto, S.: Bitcoin: A Peer-to-Peer Electronic Cash System. https://nakamotoinstitute.org/bitcoin/
+- [4] Script. https://en.bitcoin.it/wiki/Script
+- [5] Hearn, M.: Anti DoS for tx replacement. https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2013- April/002417.html (2013)
+- [6] Nolan, T.: Re: Alt chains and atomic transfers. https://bitcointalk.org/index.php?topic=193281.msg2224949msg2224949 (2013)
+- [7] Andresen, G.: M-of-N Standard Transaction. https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki (2011)
+- [8] Optech: Covenants. https://bitcoinops.org/en/topics/covenants/
+- [9] Todd, P.: Near-zero fee transactions with hub-and-spoke micro- payments. https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2014- December/006988.html (2014)
+- [10] Poon, J., Dryja, T.: The Bitcoin Lightning Network: Scalable Off- chain Instant Payments. https://lightning.network/lightning-network- paper.pdf (2016)
+- [11] Kate, A., Goldberg, I.: Using sphinx to improve onion routing circuit con- struction. In: 14th International Conference on Financial Cryptography and Data Security (2010)
+- [12] Teinturier,B.:TrampolineRouting.https://github.com/lightning/bolts/pull/829 (2020)
+- [13] Teinturier,B.:RouteBlinding.https://github.com/lightning/bolts/pull/765 (2020)
+- [14] Russell,R.:Onionmessagesupport.https://github.com/lightning/bolts/pull/759 (2020)
+- [15] Invoice Protocol for Lightning https://github.com/lightning/bolts/blob/master/11-payment- encoding.md (2017)
+- [16] Russell, R.: Flexible Protocol for Lightning http://bolt12.org/bolt12.html (2020)
+  Payments.
+  Payments.
+- [17]nostr - Notes and Other Stuff Transmitted by Relays. https://github.com/nostr-protocol/nostr (2022)
+- [18] Douceur, J.R.: The sybil attack. In: Peer-to-peer Systems: First Interna- tional Workshop (2002)
+- [19] Teinturier, B.: Onion messages rate-limiting. https://lists.linuxfoundation.org/pipermail/lightning-dev/2022- June/003623.html (2022)
 
 Civ Kit: A Peer-to-Peer Electronic Market System 19
-[20] Zhou, L., Xiong, X., Ernstberger, J., Chaliasos, S., Wang, Z., Wang, Y., Qin, K., Wattenhofer, R., Song, D., Gervais, A.: SoK: Decentralized Finance (DeFi) Attacks. Cryptology ePrint Archive, Paper 2022/1773. https://eprint.iacr.org/2022/1773 (2022). https://eprint.iacr.org/2022/ 1773
-[21] Optech: Fedimint. https://fedimint.org (2023)
-[22] Optech: Point Time Locked Contracts. https://bitcoinops.org/en/topics/ptlc/
-[23] Kohen, N.: A Payment Point Feature Family (Multisig, DLC, Escrow,
-...). https://lists.linuxfoundation.org/pipermail/lightning-dev/2019- October/002213.html (2019)
-[24] Wuille, P.: Taproot: SegWit version 1 spending https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki (2020)
-[25] Wuille, P.: Miniscript. https://bitcoin.sipa.be/miniscript/ (2019)
-[26] W3C: Decentralized Identifiers (DIDs) https://www.w3.org/TR/2022/REC-did-core-20220719/ (2022)
-rules.
-v1.0.
-[27]Postel, J.: On the Junk Mail Problem. https://www.rfc- editor.org/rfc/rfc706.html (1975)
-[28] Back, A.: Hashcash - A Denial of Service Counter-Measure. http://www.hashcash.org/papers/hashcash.pdf (2002)
-[29] Wikipedia:Weboftrust.https://en.wikipedia.org/wiki/Weboftrust(2023)
-[30] Naumenko, G., Riard, A.: Mitigating Channel Jamming with Stakes Cer- tificates. https://lists.linuxfoundation.org/pipermail/lightning-dev/2020- November/002884.html (2020)
-[31] Davidson, A., Goldberg, I., Sullivan, N., Tankersley, G., Valsorda, F.: Privacy pass: Bypassing internet challenges anonymously. In: Proceedings on Privacy Enhancing Technologies (2018)
-[32] Optech:StakingCredentials.https://bitcoinops.org/en/newsletters/2022/11/30/repu credentials-proposal-to-mitigate-ln-jamming-attacks (2022)
-[33] Dryja, T.: Unlinkable Outsourced Channel Monitoring. https://btctranscripts.com/scalingbitcoin/milan-2016/unlinkable- outsourced-channel-monitoring/ (2016)
-[34] Hearn, M.: Understanding the bitcoinj security model.
 
-20 Civ Kit: A Peer-to-Peer Electronic Market System https://bitcoinj.org/security-model (2013)
-[35] Sheinfeld, R.: Introducing Lightning Service Providers. https://medium.com/breez-technology/introducing-lightning-service- providers-fe9fb1665d5f (2019)
+- [20] Zhou, L., Xiong, X., Ernstberger, J., Chaliasos, S., Wang, Z., Wang, Y., Qin, K., Wattenhofer, R., Song, D., Gervais, A.: SoK: Decentralized Finance (DeFi) Attacks. Cryptology ePrint Archive, Paper 2022/1773. https://eprint.iacr.org/2022/1773 (2022). https://eprint.iacr.org/2022/ 1773
+- [21] Optech: Fedimint. https://fedimint.org (2023)
+- [22] Optech: Point Time Locked Contracts. https://bitcoinops.org/en/topics/ptlc/
+- [23] Kohen, N.: A Payment Point Feature Family (Multisig, DLC, Escrow,
+  ...). https://lists.linuxfoundation.org/pipermail/lightning-dev/2019- October/002213.html (2019)
+- [24] Wuille, P.: Taproot: SegWit version 1 spending https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki (2020)
+- [25] Wuille, P.: Miniscript. https://bitcoin.sipa.be/miniscript/ (2019)
+- [26] W3C: Decentralized Identifiers (DIDs) https://www.w3.org/TR/2022/REC-did-core-20220719/ (2022)
+  rules.
+  v1.0.
+- [27]Postel, J.: On the Junk Mail Problem. https://www.rfc- editor.org/rfc/rfc706.html (1975)
+- [28] Back, A.: Hashcash - A Denial of Service Counter-Measure. http://www.hashcash.org/papers/hashcash.pdf (2002)
+- [29] Wikipedia:Weboftrust.https://en.wikipedia.org/wiki/Weboftrust(2023)
+- [30] Naumenko, G., Riard, A.: Mitigating Channel Jamming with Stakes Cer- tificates. https://lists.linuxfoundation.org/pipermail/lightning-dev/2020- November/002884.html (2020)
+- [31] Davidson, A., Goldberg, I., Sullivan, N., Tankersley, G., Valsorda, F.: Privacy pass: Bypassing internet challenges anonymously. In: Proceedings on Privacy Enhancing Technologies (2018)
+- [32] Optech:StakingCredentials.https://bitcoinops.org/en/newsletters/2022/11/30/repu credentials-proposal-to-mitigate-ln-jamming-attacks (2022)
+- [33] Dryja, T.: Unlinkable Outsourced Channel Monitoring. https://btctranscripts.com/scalingbitcoin/milan-2016/unlinkable- outsourced-channel-monitoring/ (2016)
+- [34] Hearn, M.: Understanding the bitcoinj security model. https://bitcoinj.org/security-model (2013)
+- [35] Sheinfeld, R.: Introducing Lightning Service Providers. https://medium.com/breez-technology/introducing-lightning-service- providers-fe9fb1665d5f (2019)
