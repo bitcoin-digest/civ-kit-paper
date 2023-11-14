@@ -15,7 +15,7 @@ Golbal trade has come to rely on a market system characterized by high barriers 
 
 A peer-to-peer electronic market system is needed to extend the global flows of Bitcoin liquidity, fiat currencies, and goods to any community in a permissionless manner. In this paper, we propose such a system in which two parties can discover trade offers across a set of distruibuted bulletin boards, find each other, and execute a trade for anything using Bitcoin or Lightning as a clearing layer. No custodians are needed to escrow the coins, as they remain locked under Bitcoin Script trust-minimized escrow contracts. The escrow mechanism can be refined over time to accommodate all types of transactions, from Bitcoin to fiat money to goods and services, by leveraging oracles. Anyone can start a market bulletin board or oracle for anything, and anyone can engage in trading. All the frictions and blockades that have hindered free trade will be reduced to pure technical capabilities.
 
-# Design Rational
+# 2 Design Rational
 
 Peer-to-peer electronic markets must possess specific attributes to accomplish the primary goal of offering affordable, censorshio-resistant trading on a global scale. A decentralized system comprises a network of peer-to-peer servers that coordinate their operations without depending on trusted third parties [1]. Operating such a server should require minimal computational resources and have low barriers, akin to running a Bitcoin full node.
 
