@@ -227,7 +227,9 @@ LN onion message
 Mary
 LN channel #2
 Fig. 5 Web-of-Stakes rank query: Mary owning 2 Lightning channels with Alice and Bob submits proofs to the rank proofs server. Later on, when Mary sends an offer to Billy, she attaches a signature-of-stakes. Billy can leverages this signature to obtain Mary rank from the server and decide or not to publish the offer
-8 The incentives of market functionaries
+
+# 8 The incentives of market functionaries
+
 This peer-to-peer electronic market design adheres to an "infrastructure- as-a-market" paradigm, where all services are competitively provided by functionaries, similar to mining nodes on the base layer or routing hops on the Lightning Network. There is no formal barrier to entry for new service providers, nor any "single point of failure" or privileged parties coordinating the network.
 This openness applies to all types of market functionaries that make up the system:
 – Bulletin boards
@@ -280,7 +282,9 @@ trade offers
 
 The peer-to-peer electronic market infrastructure is versatile enough to adapt to real-world goods trading, beyond the exchange of pure commodities. Com- bined with extended escrow capabilities (timelocks, n-of-m), the escrow script can adapt to the operational constraints of physical goods delivery. For example, a commodity delivery escrow could include a pubkey from every participant in the logistical chain.
 Numerous classes of global trade could be traded on the bulletin boards and exchanged under advanced Bitcoin escrow contracts, such as oil and gas, food commodities, mining and AI chips.
-10 Conclusion
+
+# 10 Conclusion
+
 We have had Bitcoin as a system of peer-to-peer electronic cash for fourteen years, which does not rely on trust. However, Bitcoin cannot reach the masses of global users in daily use unless it can interact with the existing world of fiat currencies, goods, and services trading. We propose a system of peer- to-peer electronic markets without relying on trusted third parties. We start with a peer-to-peer order book that relies on the Nostr client-server architec- ture and the Lightning onion routing mechanism. To solve trade execution, we depend on Bitcoin escrow contracts, where trade logic can be backed by trust- minimized oracles. Spam deterrence and the ordering of market information are realized through the introduction of the "Web-of-Stakes" paradigm, where the Bitcoin UTXO set and overlay semantics serve as a trustless source of truth. The network nodes fulfilling the system operations constitute a dynamic mem- bership in competition. The correctness of these node operations is incentivized by Bitcoin payments with minimal coordination.
 
 References
